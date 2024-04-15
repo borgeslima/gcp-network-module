@@ -43,7 +43,7 @@ resource "google_compute_subnetwork" "this" {
 resource "google_compute_address" "this" {
   for_each = var.subnetworks
 
-  name    = format("%s-nat-ip", each.key)
+  name    = format("%s-nat-ip-${each.key}", each.key)
   project = google_compute_network.this.project
   region  = each.value.region
   depends_on = [
@@ -59,7 +59,7 @@ resource "google_compute_address" "this" {
 resource "google_compute_router" "this" {
   for_each = var.subnetworks
 
-  name    = format("%s-cloud-router", google_compute_network.this.name)
+  name    = format("%s-cloud-router-${each.key}", google_compute_network.this.name)
   project = google_compute_network.this.project
   network = google_compute_network.this.name
   region  = each.value.region
@@ -76,11 +76,11 @@ resource "google_compute_router_nat" "this" {
 
   for_each = var.subnetworks
 
-  name                               = format("%s-cloud-nat", google_compute_network.this.name)
+  name                               = format("%s-cloud-nat-${each.key}", google_compute_network.this.name)
   project                            = google_compute_network.this.project
   router                             = google_compute_router.this[each.key].name
   region                             = each.value.region
-  nat_ips                            = toset([for address in google_compute_address.this : address.self_link ])
+  nat_ips                            = toset([google_compute_address.this[each.key].self_link ])
   nat_ip_allocate_option             = try(each.value.nat.nat_ip_allocate_option, "MANUAL_ONLY")
   source_subnetwork_ip_ranges_to_nat = try(each.value.nat.source_subnetwork_ip_ranges_to_nat, "LIST_OF_SUBNETWORKS")
 
