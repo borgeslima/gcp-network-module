@@ -7,7 +7,7 @@ Terraform module which creates VPC resources on GCP.
 
 ```hcl
 module "network" {
-    source                             = "../.."
+    source                             = "git::git@github.com:quarks-labs/gcp-network-module.git"
     region                             = "us-east1"
     name                               = "quark-labs"
     project                            = "quarks-labs"
