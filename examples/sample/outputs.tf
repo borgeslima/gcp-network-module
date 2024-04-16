@@ -1,7 +1,10 @@
-output "subnetwork_range_names" {
-  value = module.network.subnetwork_range_names
+output "subnetworks" {
+  value = module.network.subnetwork_self_link
 }
 
-output "subnetworks" {
-  value = module.network.subnetworks
+
+output "subnetwork_secondary_ip_ranges" {
+  value = module.network.subnetwork_secondary_ip_ranges
+  description = "List of Subnetworks Secondary ip ranges"
 }
+

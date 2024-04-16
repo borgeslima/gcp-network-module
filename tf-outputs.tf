@@ -1,44 +1,46 @@
-output "id" {
+output "network_id" {
   value = google_compute_network.this.id
   description = "Id of network"
 }
 
+output "network_self_link" {
+  value = google_compute_network.this.self_link
+  description = "Network Self Link"
+}
 
-output "name" {
+output "network_name" {
   value = google_compute_network.this.name
   description = "Name of network"
 }
 
-output "description" {
+output "network_description" {
   value = google_compute_network.this.description
   description = "Description of network"
 }
 
-output "internal_ipv6_range" {
+output "network_internal_ipv6_range" {
   value = google_compute_network.this.internal_ipv6_range
   description = "internal_ipv6_range of network"
 }
 
-output "gateway_ipv4" {
+output "network_gateway_ipv4" {
   value = google_compute_network.this.gateway_ipv4
   description = "gateway_ipv4 of network"
 }
 
-output "auto_create_subnetworks" {
-  value = google_compute_network.this.auto_create_subnetworks
-  description = "auto_create_subnetworks of network"
-}
-
-output "subnetworks" {
-  value = toset([for subnetwork in google_compute_subnetwork.this: subnetwork.name])
+output "subnetwork_names" {
+  value = [for subnetwork in google_compute_subnetwork.this: subnetwork.name]
   description = "List of subnetworks"
 }
 
-output "subnetwork_range_names" {
-  value = toset([for subnet in google_compute_subnetwork.this: [for secondary in subnet.secondary_ip_range : secondary.range_name]])
-  description = "List of Subnetworks of network"
+output "subnetwork_self_link" {
+  value = [for subnetwork in google_compute_subnetwork.this: subnetwork.self_link]
+  description = "List of subnetworks"
 }
 
-
+output "subnetwork_secondary_ip_ranges" {
+  value = [for subnet in google_compute_subnetwork.this: [for secondary in subnet.secondary_ip_range : secondary.range_name]]
+  description = "List of Subnetworks Secondary ip ranges"
+}
 
 
