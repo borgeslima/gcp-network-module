@@ -38,7 +38,7 @@ module "network" {
 
     subenet2 = {
       name                     = "default-02"
-      region                   = "us-east1"
+      region                   = "us-east4"
       ip_cidr_range            = "172.26.0.0/27"
       private_ip_google_access = false
       nat = {
