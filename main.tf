@@ -14,7 +14,7 @@ resource "google_compute_network" "this" {
 
 resource "google_compute_subnetwork" "this" {
 
-  for_each = var.subnetworks
+  for_each = { for idx, sub in var.subnetworks : idx => sub }
 
   name                     = lower(each.value.name)
   project                  = google_compute_network.this.project
@@ -41,9 +41,10 @@ resource "google_compute_subnetwork" "this" {
 ################################################################################
 
 resource "google_compute_address" "this" {
-  for_each = var.subnetworks
+  for_each = { for idx, sub in var.subnetworks : idx => sub }
 
-  name    = format("%s-nat-ip-${each.key}", each.key)
+
+  name    = format("%s-nat-ip-${each.key}", google_compute_network.this.name)
   project = google_compute_network.this.project
   region  = each.value.region
   depends_on = [
@@ -57,7 +58,8 @@ resource "google_compute_address" "this" {
 ################################################################################
 
 resource "google_compute_router" "this" {
-  for_each = var.subnetworks
+  for_each = { for idx, sub in var.subnetworks : idx => sub }
+
 
   name    = format("%s-cloud-router-${each.key}", google_compute_network.this.name)
   project = google_compute_network.this.project
@@ -74,7 +76,8 @@ resource "google_compute_router" "this" {
 
 resource "google_compute_router_nat" "this" {
 
-  for_each = var.subnetworks
+  for_each = { for idx, sub in var.subnetworks : idx => sub }
+
 
   name                               = format("%s-cloud-nat-${each.key}", google_compute_network.this.name)
   project                            = google_compute_network.this.project

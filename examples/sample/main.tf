@@ -14,8 +14,7 @@ module "network" {
   auto_create_subnetworks            = local.auto_create_subnetworks
   project                            = local.project
 
-  subnetworks = {
-    subenet1 = {
+  subnetworks = [{
       name                     = "default-01"
       region                   = "us-east1"
       ip_cidr_range            = "172.28.0.0/27"
@@ -34,10 +33,10 @@ module "network" {
           ip_cidr_range = "172.1.32.0/20"
         }
       }
-    }
+    }]
 
     /*
-      subenet2 = {
+      {
         name                     = "default-02"
         region                   = "us-east4"
         ip_cidr_range            = "172.26.0.0/27"
@@ -57,7 +56,6 @@ module "network" {
           }
         }
       }
-    */
-
-  }
+    
+    }*/
 }
