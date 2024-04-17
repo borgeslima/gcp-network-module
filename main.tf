@@ -25,7 +25,7 @@ resource "google_compute_subnetwork" "this" {
 
   dynamic "secondary_ip_range" {
 
-    for_each = each.value.secondary_ip_ranges
+    for_each = { for idx, range in each.value.secondary_ip_ranges : idx => range } 
 
     content {
       range_name    = secondary_ip_range.value["range_name"]

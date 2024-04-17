@@ -23,39 +23,13 @@ module "network" {
           nat_ip_allocate_option             = "MANUAL_ONLY"
           source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
       }
-      secondary_ip_ranges = {
-        primary = {
+      secondary_ip_ranges = [{
           range_name    = "primary"
           ip_cidr_range = "172.1.16.0/20"
-        }
-        secondary = {
+        },
+        {
           range_name    = "secondary"
           ip_cidr_range = "172.1.32.0/20"
-        }
-      }
+        }]
     }]
-
-    /*
-      {
-        name                     = "default-02"
-        region                   = "us-east4"
-        ip_cidr_range            = "172.26.0.0/27"
-        private_ip_google_access = false
-        nat = {
-            nat_ip_allocate_option             = "MANUAL_ONLY"
-            source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
-        }
-        secondary_ip_ranges = {
-          primary = {
-            range_name    = "primary"
-            ip_cidr_range = "172.22.16.0/20"
-          }
-          secondary = {
-            range_name    = "secondary"
-            ip_cidr_range = "172.22.32.0/20"
-          }
-        }
-      }
-    
-    }*/
 }
