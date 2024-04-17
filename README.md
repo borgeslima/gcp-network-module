@@ -6,7 +6,8 @@ Terraform module which creates VPC resources on GCP.
 ## Usage
 
 ```hcl
-    module "network" {
+
+ module "network" {
     source                             = "git::git@github.com:quarks-labs/gcp-container-cluster-module.git"
     region                             = local.region
     name                               = local.name
@@ -32,6 +33,8 @@ Terraform module which creates VPC resources on GCP.
             }]
         }]
     }
+
+
 
 ```
 
