@@ -6,42 +6,35 @@ Terraform module which creates VPC resources on GCP.
 ## Usage
 
 ```hcl
-module "network" {
-    source                             = "git::git@github.com:quarks-labs/gcp-network-module.git"
-    region                             = "us-east1"
-    name                               = "quark-labs"
-    project                            = "quarks-labs"
-    auto_create_subnetworks            = false
 
-    subnetworks = {
-        subenet1 = {
-            
-            name                     = "default-us-east1"
-            region                   = "us-east1"
-            ip_cidr_range            = "172.28.0.0/27"
-            private_ip_google_access = false
-            
-            nat = {
-                nat_ip_allocate_option             = "MANUAL_ONLY"
-                source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
-            }
+ module "network" {
+    source                             = "git::git@github.com:quarks-labs/gcp-container-cluster-module.git"
+    region                             = local.region
+    name                               = local.name
+    auto_create_subnetworks            = local.auto_create_subnetworks
+    project                            = local.project
 
-            secondary_ip_ranges = {
-                
-                primary = {
-                    range_name    = "primary"
-                    ip_cidr_range = "172.1.16.0/20"
-                }
-                
-                secondary = {
-                    range_name    = "secondary"
-                    ip_cidr_range = "172.1.32.0/20"
-                }
-
-            }
+    subnetworks = [{
+        name                     = "default-01"
+        region                   = "us-east1"
+        ip_cidr_range            = "172.28.0.0/27"
+        private_ip_google_access = false
+        nat = {
+            nat_ip_allocate_option             = "MANUAL_ONLY"
+            source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
         }
+        secondary_ip_ranges = [{
+            range_name    = "primary"
+            ip_cidr_range = "172.1.16.0/20"
+        },
+        {
+            range_name    = "secondary"
+            ip_cidr_range = "172.1.32.0/20"
+            }]
+        }]
     }
-}
+
+
 
 ```
 
